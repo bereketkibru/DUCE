@@ -1,5 +1,4 @@
 var router = require("express").Router();
-var logger = require("../../util/logger");
 
 //@route   GET api/profile/test
 //@desc    Test Profile route

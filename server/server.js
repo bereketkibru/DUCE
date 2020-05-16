@@ -2,8 +2,7 @@ const express = require("express");
 const app = express();
 const api = require("./api/api");
 const config = require("./config/config");
-
-var logger = require("./util/logger");
+const passport = require("passport");
 
 //DB Config
 require("mongoose")
@@ -14,19 +13,11 @@ require("mongoose")
 //setup the app middleware
 require("./middleware/appMiddleware")(app);
 
+//Passport config
+require("./config/passport")(passport);
+
 //setup the api
 app.use("/api", api);
 //app.use('./auth',auth)
 
-app.get("/", (req, res) => res.send("hello"));
-
-app.use(function (err, req, res, next) {
-  //if error thrown from Jwr validation check
-  if (err.name === "UnauthorizedError") {
-    res.status(401).send("Invlaid token");
-    return;
-  }
-  logger.error(err.stack);
-  res.status(500).send("oops");
-});
 module.exports = app;

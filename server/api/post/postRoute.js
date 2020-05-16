@@ -1,5 +1,4 @@
 var router = require("express").Router();
-var logger = require("../../util/logger");
 
 //@route   GET api/post/test
 //@desc    Test post route
