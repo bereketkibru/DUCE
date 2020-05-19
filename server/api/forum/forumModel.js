@@ -2,10 +2,14 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 //Create Schema
-const PostSchema = new Schema({
+const ForumSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
     ref: "user",
+  },
+  title: {
+    type: String,
+    required: true,
   },
   text: {
     type: String,
@@ -21,7 +25,11 @@ const PostSchema = new Schema({
     type: Date,
     deafault: Date.now,
   },
-  likes: [
+  status: {
+    type: String,
+    default: "wating",
+  },
+  votes: [
     {
       user: {
         type: Schema.Types.ObjectId,
@@ -29,17 +37,13 @@ const PostSchema = new Schema({
       },
     },
   ],
-  comments: [
+  threads: [
     {
       user: {
         type: Schema.Types.ObjectId,
         ref: "users",
       },
       text: {
-        type: String,
-        required: true,
-      },
-      title: {
         type: String,
         required: true,
       },
@@ -53,7 +57,11 @@ const PostSchema = new Schema({
         type: Date,
         default: Date.now,
       },
+      status: {
+        type: String,
+        default: "wating",
+      },
     },
   ],
 });
-module.exports = Post = mongoose.model("post", PostSchema);
+module.exports = Forum = mongoose.model("forum", ForumSchema);

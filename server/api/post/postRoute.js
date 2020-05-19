@@ -14,7 +14,7 @@ const validatePostInput = require("../../validation/post");
 router.get("/test", (req, res) => res.send("hello from post"));
 
 //@route   POST api/posts
-//@desc    Create post
+//@desc    Get post
 //@access  Public
 router.get("/", (req, res) => {
   Post.find()
@@ -47,6 +47,7 @@ router.post(
     }
     const newPost = new Post({
       text: req.body.text,
+      title: req.body.title,
       name: req.body.name,
       avatar: req.body.avatar,
       user: req.user.id,
@@ -159,6 +160,7 @@ router.post(
       .then((post) => {
         const newComment = {
           text: req.body.text,
+          title: req.body.title,
           name: req.body.name,
           avatar: req.body.id,
           user: req.user.id,

@@ -2,12 +2,12 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 //Create Schema
-const PostSchema = new Schema({
+const QandaSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
     ref: "user",
   },
-  text: {
+  question: {
     type: String,
     required: true,
   },
@@ -21,25 +21,18 @@ const PostSchema = new Schema({
     type: Date,
     deafault: Date.now,
   },
-  likes: [
+  lock: {
+    type: Boolean,
+    default: false,
+  },
+
+  answers: [
     {
       user: {
         type: Schema.Types.ObjectId,
         ref: "users",
       },
-    },
-  ],
-  comments: [
-    {
-      user: {
-        type: Schema.Types.ObjectId,
-        ref: "users",
-      },
-      text: {
-        type: String,
-        required: true,
-      },
-      title: {
+      answer: {
         type: String,
         required: true,
       },
@@ -53,7 +46,11 @@ const PostSchema = new Schema({
         type: Date,
         default: Date.now,
       },
+      status: {
+        type: Boolean,
+        default: false,
+      },
     },
   ],
 });
-module.exports = Post = mongoose.model("post", PostSchema);
+module.exports = Qanda = mongoose.model("qanda", QandaSchema);
