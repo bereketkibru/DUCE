@@ -176,7 +176,7 @@ class CreateProfile extends Component {
         label: "Select Professional Status",
         value: 0,
       },
-      { label: "Instructor", value: "Instructor" },
+      { label: "Instructor or Teacher", value: "Instructor or Teacher" },
       { label: "Student", value: "Student" },
       { label: "Almuni", value: "Almuni" },
       { label: "Other", value: "Other" },
