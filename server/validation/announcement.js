@@ -5,9 +5,10 @@ module.exports = function validateAnnInput(data) {
 
   data.text = !isEmpty(data.text) ? data.text : "";
   data.title = !isEmpty(data.title) ? data.title : "";
+  data.link = !isEmpty(data.link) ? data.link : "";
 
-  if (!validator.isLength(data.text, { min: 10, max: 300 })) {
-    errors.text = "Announcement must be between 10 and 300 characters";
+  if (!validator.isLength(data.text, { min: 10, max: 3000 })) {
+    errors.text = "Announcement must be between 10 and 3000 characters";
   }
   if (validator.isEmpty(data.text)) {
     errors.text = "Text field is required";
@@ -17,6 +18,11 @@ module.exports = function validateAnnInput(data) {
   }
   if (validator.isEmpty(data.title)) {
     errors.title = "Text field is required";
+  }
+  if (!isEmpty(data.link)) {
+    if (!validator.isURL(data.link)) {
+      errors.link = "Not a valid URL";
+    }
   }
 
   return {

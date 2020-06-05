@@ -11,3 +11,7 @@ export const GET_POST = "GET_POST";
 export const ADD_POST = "ADD_POST";
 export const DELETE_POST = "DELETE_POST";
 export const CLEAR_ERRORS = "CLEAR_ERRORS";
+export const ADD_ANN = "ADD_ANN";
+export const ANN_LOADING = "ANN_LOADING";
+export const GET_ANNS = "GET_ANNS";
+export const DELETE_ANN = "DELETE_ANN ";

@@ -23,6 +23,7 @@ import AddEducation from "./components/add-credentials/AddEducation";
 import Profiles from "./components/profiles/Profiles";
 import Profile from "./components/profile/Profile";
 import Posts from "./components/posts/Posts";
+import Anns from "./components/announcements/Anns";
 
 import "./App.css";
 import NotFound from "./components/not-found/NotFound";
@@ -98,6 +99,9 @@ class App extends Component {
               </Switch>
               <Switch>
                 <PrivateRoute exact path="/feed" component={Posts} />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/announcement" component={Anns} />
               </Switch>
               <Route exact path="/not-found" component={NotFound} />
             </div>

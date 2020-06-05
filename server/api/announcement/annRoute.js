@@ -49,6 +49,7 @@ router.post(
     const newAnn = new Ann({
       title: req.body.title,
       text: req.body.text,
+      link: req.body.link,
       name: req.body.name,
       avatar: req.body.avatar,
       user: req.user.id,
