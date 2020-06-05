@@ -24,10 +24,12 @@ import Profiles from "./components/profiles/Profiles";
 import Profile from "./components/profile/Profile";
 import Posts from "./components/posts/Posts";
 import Anns from "./components/announcements/Anns";
+import Post from "./components/post/Post";
+import Qanda from "./components/qanda/Qanda";
+import Qandas from "./components/qandas/Qandas";
 
 import "./App.css";
 import NotFound from "./components/not-found/NotFound";
-import Post from "./components/post/Post";
 
 // Check for token
 if (localStorage.jwtToken) {
@@ -99,6 +101,12 @@ class App extends Component {
               </Switch>
               <Switch>
                 <PrivateRoute exact path="/feed" component={Posts} />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/qandas/:id" component={Qanda} />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/qandas" component={Qandas} />
               </Switch>
               <Switch>
                 <PrivateRoute exact path="/announcement" component={Anns} />

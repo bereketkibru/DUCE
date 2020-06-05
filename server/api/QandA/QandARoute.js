@@ -164,7 +164,7 @@ router.post(
               .json({ notauthorized: "User not authorized" });
           }
           //Lock
-          qanda.lock = true;
+          qanda.lock = !qanda.lock;
           qanda.save().then((qanda) => res.json(qanda));
         })
         .catch((err) =>
