@@ -29,6 +29,10 @@ const ForumSchema = new Schema({
     type: String,
     default: "wating",
   },
+  date: {
+    type: Date,
+    default: Date.now,
+  },
   votes: [
     {
       user: {

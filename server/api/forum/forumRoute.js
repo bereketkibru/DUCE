@@ -143,7 +143,7 @@ router.post(
   }
 );
 
-//@route   POST api/forums/forums/:id
+//@route   POST api/forums/thread/:id
 //@desc    Add thread to forum
 //@access  Private
 router.post(

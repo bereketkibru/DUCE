@@ -3,11 +3,11 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 import { Link } from "react-router-dom";
-import { deleteAnswer, lockQuestion } from "../../actions/qandaActions";
+import { deleteQanda, lockQuestion } from "../../actions/qandaActions";
 
 class QItem extends Component {
   onDeleteClick(id) {
-    this.props.deleteAnswer(id);
+    this.props.deleteQanda(id);
   }
   onLockClick(id) {
     this.props.lockQuestion(id);
@@ -79,7 +79,7 @@ class QItem extends Component {
 QItem.propTypes = {
   qanda: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
-  deleteAnswer: PropTypes.func.isRequired,
+  deleteQanda: PropTypes.func.isRequired,
   lockQuestion: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
@@ -88,4 +88,4 @@ const mapStateToProps = (state) => ({
 QItem.defaultProps = {
   showActions: true,
 };
-export default connect(mapStateToProps, { deleteAnswer, lockQuestion })(QItem);
+export default connect(mapStateToProps, { deleteQanda, lockQuestion })(QItem);

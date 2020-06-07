@@ -5,6 +5,7 @@ import profileReducer from "./profileReducer";
 import postReducer from "./postReducer";
 import annReducer from "./annReducer";
 import qandaReducer from "./qandaReducer";
+import forumReducer from "./forumReducer";
 export default combineReducers({
   auth: authReducer,
   errors: errorReducer,
@@ -12,4 +13,5 @@ export default combineReducers({
   post: postReducer,
   ann: annReducer,
   qanda: qandaReducer,
+  forum: forumReducer,
 });

@@ -27,6 +27,8 @@ import Anns from "./components/announcements/Anns";
 import Post from "./components/post/Post";
 import Qanda from "./components/qanda/Qanda";
 import Qandas from "./components/qandas/Qandas";
+import Forums from "./components/forums/Forums";
+import Forum from "./components/forum/Forum";
 
 import "./App.css";
 import NotFound from "./components/not-found/NotFound";
@@ -101,6 +103,12 @@ class App extends Component {
               </Switch>
               <Switch>
                 <PrivateRoute exact path="/feed" component={Posts} />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/forums/:id" component={Forum} />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/forums" component={Forums} />
               </Switch>
               <Switch>
                 <PrivateRoute exact path="/qandas/:id" component={Qanda} />

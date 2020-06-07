@@ -22,7 +22,7 @@ class AnnItem extends Component {
       str = str.length > 10 ? str.substring(0, 25) + "..." : str;
       linkContent = (
         <a className="text-white p-2" href={ann.link} target="_blank">
-          <button className="info">{str}</button>
+          <button className=" btn btn-info">{str}</button>
         </a>
       );
     }

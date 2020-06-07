@@ -19,7 +19,7 @@ const QandaSchema = new Schema({
   },
   date: {
     type: Date,
-    deafault: Date.now,
+    default: Date.now,
   },
   lock: {
     type: Boolean,
