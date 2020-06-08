@@ -7,6 +7,7 @@ const Forum = require("./forumModel");
 const Profile = require("../profile/profileModel");
 //validation
 const validateForumInput = require("../../validation/forum");
+const validateThreadInput = require("../../validation/theread");
 
 //@route   GET api/forum/test
 //@desc    Test forum route
@@ -150,7 +151,7 @@ router.post(
   "/thread/:id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    const { errors, isValid } = validateForumInput(req.body);
+    const { errors, isValid } = validateThreadInput(req.body);
     //check validation
     if (!isValid) {
       //If any errors,send 400 with errors object
@@ -161,7 +162,7 @@ router.post(
         const newThread = {
           text: req.body.text,
           name: req.body.name,
-          avatar: req.body.id,
+          avatar: req.body.avatar,
           user: req.user.id,
         };
         //Add to thread array

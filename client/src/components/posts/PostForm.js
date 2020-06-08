@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import TextAreaFieldGroup from "../common/TextAreaFieldGroup";
 import { addPost } from "../../actions/postActions";
+import { Link, withRouter } from "react-router-dom";
 
 class PostForm extends Component {
   constructor(props) {
@@ -35,7 +36,7 @@ class PostForm extends Component {
       avatar: user.avatar,
     };
 
-    this.props.addPost(newPost);
+    this.props.addPost(newPost, this.props.history);
     this.setState({ text: "", title: "" });
   }
 
@@ -48,6 +49,9 @@ class PostForm extends Component {
 
     return (
       <div className="post-form mb-3">
+        <Link to="/feed" className="btn btn-light">
+          Go Back
+        </Link>
         <div className="card card-info">
           <div className="card-header bg-info text-white">Say Somthing...</div>
           <div className="card-body">
@@ -90,4 +94,4 @@ const mapStateToProps = (state) => ({
   errors: state.errors,
 });
 
-export default connect(mapStateToProps, { addPost })(PostForm);
+export default connect(mapStateToProps, { addPost })(withRouter(PostForm));

@@ -1,7 +1,6 @@
 import axios from "axios";
 
 import {
-  ADD_ANN,
   ANN_LOADING,
   GET_ANNS,
   DELETE_ANN,
@@ -10,16 +9,11 @@ import {
 } from "./types";
 
 // Add Ann
-export const addAnn = (annData) => (dispatch) => {
+export const addAnn = (annData, history) => (dispatch) => {
   dispatch(clearErrors());
   axios
     .post("/api/announcement", annData)
-    .then((res) =>
-      dispatch({
-        type: ADD_ANN,
-        payload: res.data,
-      })
-    )
+    .then((res) => history.push("/announcement"))
     .catch((err) =>
       dispatch({
         type: GET_ERRORS,

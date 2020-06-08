@@ -32,7 +32,8 @@ import Forum from "./components/forum/Forum";
 
 import "./App.css";
 import NotFound from "./components/not-found/NotFound";
-
+import AnnForm from "./components/announcements/AnnForm";
+import PostForm from "./components/posts/PostForm";
 // Check for token
 if (localStorage.jwtToken) {
   // Set auth token header auth
@@ -97,6 +98,12 @@ class App extends Component {
                   path="/add-education"
                   component={AddEducation}
                 />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/add-ann" component={AnnForm} />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/add-post" component={PostForm} />
               </Switch>
               <Switch>
                 <PrivateRoute exact path="/posts/:id" component={Post} />

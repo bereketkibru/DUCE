@@ -100,7 +100,7 @@ router.post(
         const newAnswer = {
           answer: req.body.answer,
           name: req.body.name,
-          avatar: req.body.id,
+          avatar: req.body.avatar,
           user: req.user.id,
         };
         //Add to answer array

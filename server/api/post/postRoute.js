@@ -7,6 +7,11 @@ const Post = require("./postModel");
 const Profile = require("../profile/profileModel");
 //validation
 const validatePostInput = require("../../validation/post");
+//permission
+const {
+  canCreatePost,
+  canDeletePost,
+} = require("../../permission/postPermission");
 
 //@route   GET api/post/test
 //@desc    Test post route
@@ -22,8 +27,8 @@ router.get("/", (req, res) => {
     .then((posts) => res.json(posts))
     .catch((err) => res.status(404).json("No posts found"));
 });
-//@route   POST api/posts
-//@desc    Create post
+//@route   POST api/posts/:id
+//@desc    Get  post
 //@access  Public
 router.get("/:id", (req, res) => {
   Post.findById(req.params.id)
@@ -39,20 +44,24 @@ router.post(
   "/",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    const { errors, isValid } = validatePostInput(req.body);
-    //check validation
-    if (!isValid) {
-      //If any errors,send 400 with errors object
-      return res.status(400).json(errors);
+    if (canCreatePost(req.user)) {
+      const { errors, isValid } = validatePostInput(req.body);
+      //check validation
+      if (!isValid) {
+        //If any errors,send 400 with errors object
+        return res.status(400).json(errors);
+      }
+      const newPost = new Post({
+        text: req.body.text,
+        title: req.body.title,
+        name: req.body.name,
+        avatar: req.body.avatar,
+        user: req.user.id,
+      });
+      newPost.save().then((post) => res.json(post));
+    } else {
+      return res.status(401).json({ notauthorized: "User not authorized" });
     }
-    const newPost = new Post({
-      text: req.body.text,
-      title: req.body.title,
-      name: req.body.name,
-      avatar: req.body.avatar,
-      user: req.user.id,
-    });
-    newPost.save().then((post) => res.json(post));
   }
 );
 
@@ -66,14 +75,15 @@ router.delete(
     Profile.findOne({ user: req.user.id }).then((profile) => {
       Post.findById(req.params.id)
         .then((post) => {
-          //Check for post owner
-          if (post.user.toString() !== req.user.id) {
+          //Check for post owner or Admin
+          if (canDeletePost(req.user, post)) {
+            //Delete
+            post.remove().then(() => res.json({ success: true }));
+          } else {
             return res
               .status(401)
               .json({ notauthorized: "User not authorized" });
           }
-          //Delete
-          post.remove().then(() => res.json({ success: true }));
         })
         .catch((err) =>
           res.status(404).json({ postnotfound: "No post found" })
@@ -161,7 +171,7 @@ router.post(
         const newComment = {
           text: req.body.text,
           name: req.body.name,
-          avatar: req.body.id,
+          avatar: req.body.avatar,
           user: req.user.id,
         };
         //Add to comments array
