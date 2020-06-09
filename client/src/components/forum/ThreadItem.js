@@ -25,7 +25,9 @@ class ThreadItme extends Component {
           </div>
           <div className="col-md-10">
             <p className="lead">{thread.text}</p>
-            {thread.user === auth.user.id ? (
+            {thread.user === auth.user.id ||
+            auth.user.role === "Admin" ||
+            auth.user.role === "Moderator" ? (
               <button
                 onClick={this.onDeleteClick.bind(this, forumId, thread._id)}
                 type="button"

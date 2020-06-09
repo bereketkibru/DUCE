@@ -72,14 +72,18 @@ class ForumItem extends Component {
                 <Link to={`/forums/${forum._id}`} className="btn btn-info mr-1">
                   Discussion
                 </Link>
-                {forum.user === auth.user.id ? (
-                  <button
-                    onClick={this.onDeleteClick.bind(this, forum._id)}
-                    type="button"
-                    className="btn btn-danger mr-1"
-                  >
-                    <i className="fas fa-times" />
-                  </button>
+                {forum.user === auth.user.id ||
+                auth.user.role === "Admin" ||
+                auth.user.role === "Moderator" ? (
+                  <div className="mt-5 ">
+                    <button
+                      onClick={this.onDeleteClick.bind(this, forum._id)}
+                      type="button"
+                      className="btn btn-danger mr-1 pull-right mt-5"
+                    >
+                      <i className="fas fa-times" />
+                    </button>
+                  </div>
                 ) : null}
               </span>
             ) : null}

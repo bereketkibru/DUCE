@@ -69,14 +69,16 @@ class PostItem extends Component {
                 <Link to={`/posts/${post._id}`} className="btn btn-info mr-1">
                   Comments
                 </Link>
-                {post.user === auth.user.id ? (
-                  <button
-                    onClick={this.onDeleteClick.bind(this, post._id)}
-                    type="button"
-                    className="btn btn-danger mr-1"
-                  >
-                    <i className="fas fa-times" />
-                  </button>
+                {post.user === auth.user.id || auth.user.role === "Admin" ? (
+                  <div className="mt-5">
+                    <button
+                      onClick={this.onDeleteClick.bind(this, post._id)}
+                      type="button"
+                      className="btn btn-danger mr-1 pull-right mt-5"
+                    >
+                      <i className="fas fa-times" />
+                    </button>
+                  </div>
                 ) : null}
               </span>
             ) : null}
