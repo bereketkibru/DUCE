@@ -6,7 +6,7 @@ const Schema = mongoose.Schema;
 const QandaSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
-    ref: "user",
+    ref: "users",
   },
   question: {
     type: String,

@@ -9,8 +9,41 @@ const profile = require("../profile/profileModel");
 const post = require("../post/postModel");
 const forum = require("../forum/forumModel");
 const ann = require("../announcement/annModel");
+const { after, before } = require("./actions/action");
 
 const options = {
-  resources: [qanda, user, profile, post, forum, ann],
+  resources: [
+    {
+      resource: user,
+      options: {
+        properties: {
+          password: {
+            isVisible: false,
+          },
+          plainPassword: {
+            type: "password",
+          },
+        },
+        actions: {
+          new: {
+            after,
+            before,
+          },
+          edit: {
+            after,
+            before,
+          },
+        },
+      },
+    },
+    { resource: profile },
+    { resource: post },
+    { resource: ann },
+  ],
+  branding: {
+    logo:
+      "//www.gravatar.com/avatar/f4be6c67e8a4bd3b090c7e487f1a1cd6?s=200&r=pg&d=mm",
+    companyName: "DUCeConnector",
+  },
 };
 module.exports = options;

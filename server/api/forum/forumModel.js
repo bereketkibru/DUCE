@@ -6,7 +6,7 @@ const Schema = mongoose.Schema;
 const ForumSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
-    ref: "user",
+    ref: "users",
   },
   title: {
     type: String,

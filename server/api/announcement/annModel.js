@@ -6,7 +6,7 @@ const Schema = mongoose.Schema;
 const AnnSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
-    ref: "user",
+    ref: "users",
   },
   text: {
     type: String,

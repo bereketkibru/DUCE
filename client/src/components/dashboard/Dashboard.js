@@ -45,7 +45,15 @@ class Dashboard extends Component {
       } else {
         //User is Logged in but has no profile
         if (user.role === "Admin") {
-          dashboardContent = <h3>Admin Dashboard</h3>;
+          dashboardContent = (
+            <a
+              className="text-white p-2"
+              href="http://localhost:5000/admin/resources/users"
+              target="_blank"
+            >
+              <button className=" btn btn-info">Manage User</button>
+            </a>
+          );
         } else {
           dashboardContent = (
             <div>

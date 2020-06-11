@@ -12,7 +12,9 @@ require("mongoose")
   .connect(config.db.url, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => console.log(err));
-
+const admin = new AdminBro(options);
+const router = buildAdminRouter(admin);
+app.use(admin.options.rootPath, router);
 //setup the app middleware
 require("./middleware/appMiddleware")(app);
 
@@ -21,8 +23,5 @@ require("./config/passport")(passport);
 
 //setup the api
 app.use("/api", api);
-const admin = new AdminBro(options);
-const router = buildAdminRouter(admin);
-app.use(admin.options.rootPath, router);
 
 module.exports = app;
