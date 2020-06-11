@@ -3,6 +3,9 @@ const app = express();
 const api = require("./api/api");
 const config = require("./config/config");
 const passport = require("passport");
+const { default: AdminBro } = require("admin-bro");
+const options = require("./api/admin/adminOptions");
+const buildAdminRouter = require("./api/admin/adminRouter");
 
 //DB Config
 require("mongoose")
@@ -18,6 +21,8 @@ require("./config/passport")(passport);
 
 //setup the api
 app.use("/api", api);
-//app.use('./auth',auth)
+const admin = new AdminBro(options);
+const router = buildAdminRouter(admin);
+app.use(admin.options.rootPath, router);
 
 module.exports = app;

@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const timestamps = require("mongoose-timestamp");
 const Schema = mongoose.Schema;
 
 //Create Schema
@@ -116,5 +117,5 @@ const ProfileSchema = new Schema({
     default: Date.now,
   },
 });
-
+ProfileSchema.plugin(timestamps);
 module.exports = Profile = mongoose.model("profile", ProfileSchema);

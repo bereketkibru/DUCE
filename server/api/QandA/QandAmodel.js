@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const timestamps = require("mongoose-timestamp");
 const Schema = mongoose.Schema;
 
 //Create Schema
@@ -53,4 +54,5 @@ const QandaSchema = new Schema({
     },
   ],
 });
+QandaSchema.plugin(timestamps);
 module.exports = Qanda = mongoose.model("qanda", QandaSchema);
