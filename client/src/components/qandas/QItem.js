@@ -38,22 +38,14 @@ class QItem extends Component {
                 <Link to={`/qandas/${qanda._id}`} className="btn btn-info mr-1">
                   Answers
                 </Link>
-                {qanda.user === auth.user.id ? (
-                  <button
-                    onClick={this.onDeleteClick.bind(this, qanda._id)}
-                    type="button"
-                    className="btn btn-danger mr-1"
-                  >
-                    <i className="fas fa-times" />
-                  </button>
-                ) : null}
+
                 {lockComponent ? (
                   <span>
                     {qanda.lock ? (
                       <button
                         onClick={this.onLockClick.bind(this, qanda._id)}
                         type="button"
-                        className="btn btn-info mr-1"
+                        className="btn btn-primary mr-1"
                       >
                         Unlock
                       </button>
@@ -61,12 +53,25 @@ class QItem extends Component {
                       <button
                         onClick={this.onLockClick.bind(this, qanda._id)}
                         type="button"
-                        className="btn btn-danger mr-1"
+                        className="btn btn-warning mr-1"
                       >
                         Lock
                       </button>
                     )}
                   </span>
+                ) : null}
+                {qanda.user === auth.user.id ||
+                auth.user.role === "Admin" ||
+                auth.user.role === "Moderator" ? (
+                  <div className="">
+                    <button
+                      onClick={this.onDeleteClick.bind(this, qanda._id)}
+                      type="button"
+                      className="btn btn-danger mr-1 pull-right"
+                    >
+                      <i className="fas fa-times" />
+                    </button>
+                  </div>
                 ) : null}
               </span>
             ) : null}

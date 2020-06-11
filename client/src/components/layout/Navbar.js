@@ -14,6 +14,13 @@ class Navbar extends Component {
 
   render() {
     const { isAuthenticated, user } = this.props.auth;
+    let tag;
+
+    if (user.role !== "user") {
+      tag = <h3 className="text-info ml-3 mt-1">{user.role}</h3>;
+    } else {
+      tag = null;
+    }
 
     const authLinks = (
       <ul className="navbar-nav ml-auto">
@@ -52,12 +59,13 @@ class Navbar extends Component {
               className="rounded-circle"
               src={user.avatar}
               alt={user.name}
-              style={{ width: "25px", marginRight: "5px" }}
+              style={{ width: "35px", marginRight: "5px" }}
               title="You must have a Gravatar connected to your email to display an image"
             />{" "}
             Logout
           </a>
         </li>
+        <li className="nav-item">{tag}</li>
       </ul>
     );
 
@@ -77,7 +85,7 @@ class Navbar extends Component {
     );
 
     return (
-      <nav className="navbar navbar-expand-sm navbar-dark bg-dark mb-4">
+      <nav className="navbar navbar-expand-sm navbar-dark bg-dark mb-4 sticky-top">
         <div className="container">
           <Link className="navbar-brand" to="/">
             DUCoEConnector

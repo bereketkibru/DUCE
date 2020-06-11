@@ -8,6 +8,8 @@ const Profile = require("../profile/profileModel");
 //validation
 const validateQuestionInput = require("../../validation/question");
 const validateAnswerInput = require("../../validation/answer");
+//permission
+const { canDeleteQanda } = require("../../permission/qandaPermission");
 
 //@route   GET api/qanda/test
 //@desc    Test Q&A route
@@ -67,13 +69,14 @@ router.delete(
       Qanda.findById(req.params.id)
         .then((qanda) => {
           //Check for question owner
-          if (qanda.user.toString() !== req.user.id) {
+          if (canDeleteQanda(req.user, qanda)) {
+            //Delete
+            qanda.remove().then(() => res.json({ success: true }));
+          } else {
             return res
               .status(401)
               .json({ notauthorized: "User not authorized" });
           }
-          //Delete
-          qanda.remove().then(() => res.json({ success: true }));
         })
         .catch((err) =>
           res.status(404).json({ questionnotfound: "No question found" })
@@ -100,7 +103,7 @@ router.post(
         const newAnswer = {
           answer: req.body.answer,
           name: req.body.name,
-          avatar: req.body.id,
+          avatar: req.body.avatar,
           user: req.user.id,
         };
         //Add to answer array

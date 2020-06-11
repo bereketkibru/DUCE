@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import TextAreaFieldGroup from "../common/TextAreaFieldGroup";
 import { addAnn } from "../../actions/annActions";
+import { Link, withRouter } from "react-router-dom";
 
 class AnnForm extends Component {
   constructor(props) {
@@ -37,7 +38,7 @@ class AnnForm extends Component {
       avatar: user.avatar,
     };
 
-    this.props.addAnn(newAnn);
+    this.props.addAnn(newAnn, this.props.history);
     this.setState({ text: "", title: "", link: "" });
   }
 
@@ -50,6 +51,9 @@ class AnnForm extends Component {
 
     return (
       <div className="post-form mb-3">
+        <Link to="/announcement" className="btn btn-light">
+          Go Back
+        </Link>
         <div className="card card-info">
           <div className="card-header bg-info text-white">
             Create Announcement
@@ -101,4 +105,4 @@ const mapStateToProps = (state) => ({
   errors: state.errors,
 });
 
-export default connect(mapStateToProps, { addAnn })(AnnForm);
+export default connect(mapStateToProps, { addAnn })(withRouter(AnnForm));

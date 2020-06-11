@@ -1,6 +1,11 @@
 var router = require("express").Router();
 const mongoose = require("mongoose");
 const passport = require("passport");
+
+const {
+  canCreateAnn,
+  canDeleteAnn,
+} = require("../../permission/annPermission");
 //Post model
 const Ann = require("./annModel");
 //Post model
@@ -39,23 +44,28 @@ router.get("/:id", (req, res) => {
 router.post(
   "/",
   passport.authenticate("jwt", { session: false }),
+
   (req, res) => {
-    const { errors, isValid } = validateAnnInput(req.body);
-    //check validation
-    if (!isValid) {
-      //If any errors,send 400 with errors object
-      return res.status(400).json(errors);
+    if (canCreateAnn(req.user)) {
+      const { errors, isValid } = validateAnnInput(req.body);
+      //check validation
+      if (!isValid) {
+        //If any errors,send 400 with errors object
+        return res.status(400).json(errors);
+      }
+      const newAnn = new Ann({
+        title: req.body.title,
+        text: req.body.text,
+        link: req.body.link,
+        name: req.body.name,
+        avatar: req.body.avatar,
+        user: req.user.id,
+        status: req.body.status,
+      });
+      newAnn.save().then((ann) => res.json(ann));
+    } else {
+      return res.status(401).json({ notauthorized: "User not authorized" });
     }
-    const newAnn = new Ann({
-      title: req.body.title,
-      text: req.body.text,
-      link: req.body.link,
-      name: req.body.name,
-      avatar: req.body.avatar,
-      user: req.user.id,
-      status: req.body.status,
-    });
-    newAnn.save().then((ann) => res.json(ann));
   }
 );
 
@@ -69,19 +79,23 @@ router.delete(
     Profile.findOne({ user: req.user.id }).then((profile) => {
       Ann.findById(req.params.id)
         .then((ann) => {
-          //Check for post owner
-          if (ann.user.toString() !== req.user.id) {
+          //Check for announcement owner
+
+          if (canDeleteAnn(req.user, ann)) {
+            //Delete
+            ann.remove().then(() => res.json({ success: true }));
+          } else {
             return res
               .status(401)
               .json({ notauthorized: "User not authorized" });
           }
-          //Delete
-          ann.remove().then(() => res.json({ success: true }));
         })
+
         .catch((err) =>
           res.status(404).json({ announcementnotfound: "No post found" })
         );
     });
   }
 );
+
 module.exports = router;

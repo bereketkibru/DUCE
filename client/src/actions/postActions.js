@@ -1,7 +1,6 @@
 import axios from "axios";
 
 import {
-  ADD_POST,
   GET_ERRORS,
   GET_POSTS,
   POST_LOADING,
@@ -11,16 +10,11 @@ import {
 } from "./types";
 
 // Add Post
-export const addPost = (postData) => (dispatch) => {
+export const addPost = (postData, history) => (dispatch) => {
   dispatch(clearErrors());
   axios
     .post("/api/posts", postData)
-    .then((res) =>
-      dispatch({
-        type: ADD_POST,
-        payload: res.data,
-      })
-    )
+    .then((res) => history.push("/feed"))
     .catch((err) =>
       dispatch({
         type: GET_ERRORS,

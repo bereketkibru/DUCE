@@ -25,7 +25,9 @@ class AnswerItem extends Component {
           </div>
           <div className="col-md-10">
             <p className="lead">{answer.answer}</p>
-            {answer.user === auth.user.id ? (
+            {answer.user === auth.user.id ||
+            auth.user.role === "Admin" ||
+            auth.user.role === "Moderator" ? (
               <button
                 onClick={this.onDeleteClick.bind(this, qandaId, answer._id)}
                 type="button"

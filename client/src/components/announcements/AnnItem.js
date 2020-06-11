@@ -27,7 +27,7 @@ class AnnItem extends Component {
       );
     }
     return (
-      <div className="card border-info">
+      <div className="card border-info mt-5">
         <div className="card-header">
           <h4 className="card-title float-left text-info">{ann.title}</h4>
           <div
@@ -47,7 +47,7 @@ class AnnItem extends Component {
             <Moment format="YYYY/MM/DD">{ann.date}</Moment>
             {showActions ? (
               <span>
-                {ann.user === auth.user.id ? (
+                {ann.user === auth.user.id || auth.user.role === "Admin" ? (
                   <button
                     onClick={this.onDeleteClick.bind(this, ann._id)}
                     type="button"

@@ -44,15 +44,19 @@ class Dashboard extends Component {
         );
       } else {
         //User is Logged in but has no profile
-        dashboardContent = (
-          <div>
-            <p className="lead text-muted">Welcome {user.name}</p>
-            <p>You have not yet setup a profile,please add some info</p>
-            <Link to="/create-profile" className="btn btn-lg btn-info">
-              Create Profile
-            </Link>
-          </div>
-        );
+        if (user.role === "Admin") {
+          dashboardContent = <h3>Admin Dashboard</h3>;
+        } else {
+          dashboardContent = (
+            <div>
+              <p className="lead text-muted">Welcome {user.name}</p>
+              <p>You have not yet setup a profile,please add some info</p>
+              <Link to="/create-profile" className="btn btn-lg btn-info">
+                Create Profile
+              </Link>
+            </div>
+          );
+        }
       }
     }
     return (

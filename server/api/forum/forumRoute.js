@@ -7,6 +7,9 @@ const Forum = require("./forumModel");
 const Profile = require("../profile/profileModel");
 //validation
 const validateForumInput = require("../../validation/forum");
+const validateThreadInput = require("../../validation/theread");
+//Permission
+const { canDeleteForum } = require("../../permission/forumPermission");
 
 //@route   GET api/forum/test
 //@desc    Test forum route
@@ -66,14 +69,14 @@ router.delete(
     Profile.findOne({ user: req.user.id }).then((profile) => {
       Forum.findById(req.params.id)
         .then((forum) => {
-          //Check for forum owner
-          if (forum.user.toString() !== req.user.id) {
+          if (canDeleteForum(req.user, forum)) {
+            //Delete
+            forum.remove().then(() => res.json({ success: true }));
+          } else {
             return res
               .status(401)
               .json({ notauthorized: "User not authorized" });
           }
-          //Delete
-          forum.remove().then(() => res.json({ success: true }));
         })
         .catch((err) =>
           res.status(404).json({ forumnotfound: "No forum found" })
@@ -150,7 +153,7 @@ router.post(
   "/thread/:id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    const { errors, isValid } = validateForumInput(req.body);
+    const { errors, isValid } = validateThreadInput(req.body);
     //check validation
     if (!isValid) {
       //If any errors,send 400 with errors object
@@ -161,7 +164,7 @@ router.post(
         const newThread = {
           text: req.body.text,
           name: req.body.name,
-          avatar: req.body.id,
+          avatar: req.body.avatar,
           user: req.user.id,
         };
         //Add to thread array
