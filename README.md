@@ -58,6 +58,9 @@ Not relevant to the aim of the system
  To provide an approval mechanism on the ways the information will be shared.
  ......
 
+Note
+create an admin user using Mongodb shell to access the admin route.
+
 App Info
 Author
 

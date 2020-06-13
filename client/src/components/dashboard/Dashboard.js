@@ -7,6 +7,7 @@ import Spinner from "../common/Spinner";
 import ProfileAction from "./ProfileAction";
 import Experience from "./Experience";
 import Education from "./Education";
+import Admin from "./Admin";
 
 class Dashboard extends Component {
   componentDidMount() {
@@ -27,6 +28,7 @@ class Dashboard extends Component {
       if (Object.keys(profile).length > 0) {
         dashboardContent = (
           <div>
+            <h1 className="display-4">Dashboard</h1>
             <p className="lead text-muted">
               Welcome <Link to={`/profile/${profile.handle}`}>{user.name}</Link>
             </p>
@@ -45,18 +47,11 @@ class Dashboard extends Component {
       } else {
         //User is Logged in but has no profile
         if (user.role === "Admin") {
-          dashboardContent = (
-            <a
-              className="text-white p-2"
-              href="http://localhost:5000/admin/resources/users"
-              target="_blank"
-            >
-              <button className=" btn btn-info">Manage User</button>
-            </a>
-          );
+          dashboardContent = <Admin />;
         } else {
           dashboardContent = (
             <div>
+              <h1 className="display-4">Dashboard</h1>
               <p className="lead text-muted">Welcome {user.name}</p>
               <p>You have not yet setup a profile,please add some info</p>
               <Link to="/create-profile" className="btn btn-lg btn-info">
@@ -71,10 +66,7 @@ class Dashboard extends Component {
       <div className="dashboard">
         <div className="container">
           <div className="row">
-            <div className="col-md-12">
-              <h1 className="display-4">Dashboard</h1>
-              {dashboardContent}
-            </div>
+            <div className="col-md-12">{dashboardContent}</div>
           </div>
         </div>
       </div>

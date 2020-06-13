@@ -39,6 +39,8 @@ const options = {
     { resource: profile },
     { resource: post },
     { resource: ann },
+    { resource: forum },
+    { resource: qanda },
   ],
   branding: {
     logo:
