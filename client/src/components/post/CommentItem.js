@@ -24,7 +24,7 @@ class CommentItem extends Component {
             <p className="text-center">{comment.name}</p>
           </div>
           <div className="col-md-10">
-            <p className="lead">{comment.text}</p>
+            <div dangerouslySetInnerHTML={{ __html: comment.text }} />
             {comment.user === auth.user.id ||
             auth.user.role === "Admin" ||
             auth.user.role === "Moderator" ? (

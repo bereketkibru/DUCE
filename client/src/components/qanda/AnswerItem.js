@@ -24,7 +24,7 @@ class AnswerItem extends Component {
             <p className="text-center">{answer.name}</p>
           </div>
           <div className="col-md-10">
-            <p className="lead">{answer.answer}</p>
+            <div dangerouslySetInnerHTML={{ __html: answer.answer }} />
             {answer.user === auth.user.id ||
             auth.user.role === "Admin" ||
             auth.user.role === "Moderator" ? (

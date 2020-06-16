@@ -27,8 +27,8 @@ class PostItem extends Component {
     const { post, auth, showActions } = this.props;
     return (
       <div className="card card-body mb-3 mt-5">
-        <div className="row">
-          <div className="col-md-2">
+        <div className="row" style={{ display: "flex", flexDirection: "row" }}>
+          <div className="col-md-2" style={{ flex: 1 }}>
             <a href="profile.html">
               <img
                 className="rounded-circle d-none d-md-block"
@@ -40,10 +40,7 @@ class PostItem extends Component {
             <p className="text-center">{post.name}</p>
           </div>
           <div className="col-md-10">
-            <p className="lead ">
-              {" "}
-              <strong>{post.title}</strong>{" "}
-            </p>
+            <p className="lead "></p>
             <p className="lead">{post.text}</p>
             {showActions ? (
               <span>

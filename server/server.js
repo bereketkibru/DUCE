@@ -23,5 +23,6 @@ require("./config/passport")(passport);
 
 //setup the api
 app.use("/api", api);
+app.use("/uploads", express.static("uploads"));
 
 module.exports = app;

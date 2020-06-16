@@ -126,6 +126,7 @@ class CreateProfile extends Component {
       { label: "Instructor", value: "Instructor" },
       { label: "Student", value: "Student" },
       { label: "Almuni", value: "Almuni" },
+      { label: "Associate Professor", value: "Associate Professor" },
       { label: "Other", value: "Other" },
     ];
     return (

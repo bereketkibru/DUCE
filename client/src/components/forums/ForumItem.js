@@ -40,11 +40,10 @@ class ForumItem extends Component {
             <p className="text-center">{forum.name}</p>
           </div>
           <div className="col-md-10">
-            <p className="lead ">
-              {" "}
-              <strong>{forum.title}</strong>{" "}
-            </p>
-            {showDescription ? <p className="lead">{forum.text}</p> : null}
+            <p className="lead "></p>
+            {showDescription ? (
+              <div dangerouslySetInnerHTML={{ __html: forum.text }} />
+            ) : null}
 
             {showActions ? (
               <span>
@@ -105,7 +104,7 @@ const mapStateToProps = (state) => ({
 });
 ForumItem.defaultProps = {
   showActions: true,
-  showDescription: false,
+  showDescription: true,
 };
 
 export default connect(mapStateToProps, { deleteForum, addVote, removeVote })(

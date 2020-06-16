@@ -31,9 +31,10 @@ class Qanda extends Component {
       qandaContent = (
         <div>
           <QItem qanda={qanda} showActions={false} />
-
-          <AnswerFeed qandaId={qanda._id} answers={qanda.answers} />
           {qandaForm}
+          <div className="col-sm-auto offset-sm-1">
+            <AnswerFeed qandaId={qanda._id} answers={qanda.answers} />
+          </div>
         </div>
       );
     }

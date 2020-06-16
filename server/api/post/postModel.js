@@ -12,9 +12,6 @@ const PostSchema = new Schema({
     type: String,
     required: true,
   },
-  title: {
-    type: String,
-  },
   name: {
     type: String,
   },

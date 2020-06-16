@@ -1,22 +1,43 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import TextAreaFieldGroup from "../common/TextAreaFieldGroup";
-import { addForum } from "../../actions/forumActions";
 
+import { addForum } from "../../actions/forumActions";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 class ForumForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
       text: "",
-      title: "",
       errors: {},
     };
 
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
+  toolbarOptions = [
+    ["bold", "italic", "underline", "strike"], // toggled buttons
+    ["blockquote", "code-block"],
 
+    [{ header: 1 }, { header: 2 }], // custom button values
+    [{ list: "ordered" }, { list: "bullet" }],
+    [{ script: "sub" }, { script: "super" }], // superscript/subscript
+    [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
+    [{ direction: "rtl" }], // text direction
+
+    [{ size: ["small", false, "large", "huge"] }], // custom dropdown
+    [{ header: [1, 2, 3, 4, 5, 6, false] }],
+
+    [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+    [{ font: [] }],
+    [{ align: [] }],
+
+    ["clean"], // remove formatting button
+  ];
+  modules = {
+    toolbar: this.toolbarOptions,
+  };
   componentWillReceiveProps(newProps) {
     if (newProps.errors) {
       this.setState({ errors: newProps.errors });
@@ -30,22 +51,19 @@ class ForumForm extends Component {
 
     const newForum = {
       text: this.state.text,
-      title: this.state.title,
       name: user.name,
       avatar: user.avatar,
     };
 
     this.props.addForum(newForum);
-    this.setState({ text: "", title: "" });
+    this.setState({ text: "" });
   }
 
-  onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+  onChange(value) {
+    this.setState({ text: value });
   }
 
   render() {
-    const { errors } = this.state;
-
     return (
       <div className="post-form mb-3">
         <div className="card card-info">
@@ -55,19 +73,12 @@ class ForumForm extends Component {
           <div className="card-body">
             <form onSubmit={this.onSubmit}>
               <div className="form-group">
-                <TextAreaFieldGroup
-                  placeholder="Title"
-                  name="title"
-                  value={this.state.title}
-                  onChange={this.onChange}
-                  error={errors.title}
-                />
-                <TextAreaFieldGroup
-                  placeholder="Detail Description about the topic"
-                  name="text"
+                <ReactQuill
+                  theme="snow"
+                  modules={this.modules}
                   value={this.state.text}
+                  placeholder="say something"
                   onChange={this.onChange}
-                  error={errors.text}
                 />
               </div>
               <button type="submit" className="btn btn-dark">

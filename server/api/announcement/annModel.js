@@ -12,10 +12,7 @@ const AnnSchema = new Schema({
     type: String,
     required: true,
   },
-  title: {
-    type: String,
-    required: true,
-  },
+
   link: {
     type: String,
   },

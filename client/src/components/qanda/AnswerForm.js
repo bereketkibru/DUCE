@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import TextAreaFieldGroup from "../common/TextAreaFieldGroup";
+
 import { addAnswer } from "../../actions/qandaActions";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 class AnswerForm extends Component {
   constructor(props) {
@@ -37,14 +39,33 @@ class AnswerForm extends Component {
     this.props.addAnswer(qandaId, newAnswer);
     this.setState({ answer: "" });
   }
+  toolbarOptions = [
+    ["bold", "italic", "underline", "strike"], // toggled buttons
+    ["blockquote", "code-block"],
 
-  onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+    [{ header: 1 }, { header: 2 }], // custom button values
+    [{ list: "ordered" }, { list: "bullet" }],
+    [{ script: "sub" }, { script: "super" }], // superscript/subscript
+    [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
+    [{ direction: "rtl" }], // text direction
+
+    [{ size: ["small", false, "large", "huge"] }], // custom dropdown
+    [{ header: [1, 2, 3, 4, 5, 6, false] }],
+
+    [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+    [{ font: [] }],
+    [{ align: [] }],
+
+    ["clean"], // remove formatting button
+  ];
+  modules = {
+    toolbar: this.toolbarOptions,
+  };
+  onChange(value) {
+    this.setState({ answer: value });
   }
 
   render() {
-    const { errors } = this.state;
-
     return (
       <div className="post-form mb-3">
         <div className="card card-info">
@@ -54,12 +75,12 @@ class AnswerForm extends Component {
           <div className="card-body">
             <form onSubmit={this.onSubmit}>
               <div className="form-group">
-                <TextAreaFieldGroup
-                  placeholder="Answer"
-                  name="answer"
+                <ReactQuill
+                  theme="snow"
+                  modules={this.modules}
                   value={this.state.answer}
+                  placeholder="say something"
                   onChange={this.onChange}
-                  error={errors.answer}
                 />
               </div>
               <button type="submit" className="btn btn-dark">

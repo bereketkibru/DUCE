@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import TextAreaFieldGroup from "../common/TextAreaFieldGroup";
 import { addQuestion } from "../../actions/qandaActions";
-
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 class QForm extends Component {
   constructor(props) {
     super(props);
@@ -15,7 +15,28 @@ class QForm extends Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
+  toolbarOptions = [
+    ["bold", "italic", "underline", "strike"], // toggled buttons
+    ["blockquote", "code-block"],
 
+    [{ header: 1 }, { header: 2 }], // custom button values
+    [{ list: "ordered" }, { list: "bullet" }],
+    [{ script: "sub" }, { script: "super" }], // superscript/subscript
+    [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
+    [{ direction: "rtl" }], // text direction
+
+    [{ size: ["small", false, "large", "huge"] }], // custom dropdown
+    [{ header: [1, 2, 3, 4, 5, 6, false] }],
+
+    [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+    [{ font: [] }],
+    [{ align: [] }],
+
+    ["clean"], // remove formatting button
+  ];
+  modules = {
+    toolbar: this.toolbarOptions,
+  };
   componentWillReceiveProps(newProps) {
     if (newProps.errors) {
       this.setState({ errors: newProps.errors });
@@ -37,13 +58,11 @@ class QForm extends Component {
     this.setState({ question: "" });
   }
 
-  onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+  onChange(value) {
+    this.setState({ question: value });
   }
 
   render() {
-    const { errors } = this.state;
-
     return (
       <div className="post-form mb-3">
         <div className="card card-info">
@@ -51,12 +70,12 @@ class QForm extends Component {
           <div className="card-body">
             <form onSubmit={this.onSubmit}>
               <div className="form-group">
-                <TextAreaFieldGroup
-                  placeholder="Ask Question"
-                  name="question"
+                <ReactQuill
+                  theme="snow"
+                  modules={this.modules}
                   value={this.state.question}
+                  placeholder="say something"
                   onChange={this.onChange}
-                  error={errors.question}
                 />
               </div>
               <button type="submit" className="btn btn-dark">

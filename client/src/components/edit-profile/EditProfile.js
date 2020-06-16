@@ -179,6 +179,7 @@ class CreateProfile extends Component {
       { label: "Instructor or Teacher", value: "Instructor or Teacher" },
       { label: "Student", value: "Student" },
       { label: "Almuni", value: "Almuni" },
+      { label: "Associate Professor", value: "Associate Professor" },
       { label: "Other", value: "Other" },
     ];
     return (

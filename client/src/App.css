@@ -2,6 +2,18 @@ img {
   width: 100%;
 }
 
+.ql-editor iframe {
+  min-height: 300px;
+}
+
+.ql-editor img {
+  max-height: 300px;
+  object-fit: contain;
+}
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
 .landing {
   position: relative;
   background: url("./img/GC8.png") no-repeat;

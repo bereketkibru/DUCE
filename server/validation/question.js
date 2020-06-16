@@ -5,7 +5,7 @@ module.exports = function validateQuestionInput(data) {
 
   data.question = !isEmpty(data.question) ? data.question : "";
 
-  if (!validator.isLength(data.question, { min: 5, max: 1000 })) {
+  if (!validator.isLength(data.question, { min: 5, max: 3000 })) {
     errors.question = "Question must be between 5 and 1000 characters";
   }
   if (validator.isEmpty(data.question)) {

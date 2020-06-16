@@ -10,7 +10,6 @@ class PostForm extends Component {
     super(props);
     this.state = {
       text: "",
-      title: "",
       errors: {},
     };
 
@@ -31,7 +30,6 @@ class PostForm extends Component {
 
     const newPost = {
       text: this.state.text,
-      title: this.state.title,
       name: user.name,
       avatar: user.avatar,
     };
@@ -57,13 +55,6 @@ class PostForm extends Component {
           <div className="card-body">
             <form onSubmit={this.onSubmit}>
               <div className="form-group">
-                <TextAreaFieldGroup
-                  placeholder="Title"
-                  name="title"
-                  value={this.state.title}
-                  onChange={this.onChange}
-                  error={errors.title}
-                />
                 <TextAreaFieldGroup
                   placeholder="Create a post"
                   name="text"

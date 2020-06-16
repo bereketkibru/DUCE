@@ -4,7 +4,8 @@ import { connect } from "react-redux";
 import TextAreaFieldGroup from "../common/TextAreaFieldGroup";
 import { addAnn } from "../../actions/annActions";
 import { Link, withRouter } from "react-router-dom";
-
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 class AnnForm extends Component {
   constructor(props) {
     super(props);
@@ -17,8 +18,30 @@ class AnnForm extends Component {
 
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
+  toolbarOptions = [
+    ["bold", "italic", "underline", "strike"], // toggled buttons
+    ["blockquote", "code-block"],
 
+    [{ header: 1 }, { header: 2 }], // custom button values
+    [{ list: "ordered" }, { list: "bullet" }],
+    [{ script: "sub" }, { script: "super" }], // superscript/subscript
+    [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
+    [{ direction: "rtl" }], // text direction
+
+    [{ size: ["small", false, "large", "huge"] }], // custom dropdown
+    [{ header: [1, 2, 3, 4, 5, 6, false] }],
+
+    [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+    [{ font: [] }],
+    [{ align: [] }],
+
+    ["clean"], // remove formatting button
+  ];
+  modules = {
+    toolbar: this.toolbarOptions,
+  };
   componentWillReceiveProps(newProps) {
     if (newProps.errors) {
       this.setState({ errors: newProps.errors });
@@ -32,18 +55,20 @@ class AnnForm extends Component {
 
     const newAnn = {
       text: this.state.text,
-      title: this.state.title,
       link: this.state.link,
       name: user.name,
       avatar: user.avatar,
     };
 
     this.props.addAnn(newAnn, this.props.history);
-    this.setState({ text: "", title: "", link: "" });
+    this.setState({ text: "", link: "" });
   }
 
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
+  }
+  handleChange(value) {
+    this.setState({ text: value });
   }
 
   render() {
@@ -61,27 +86,25 @@ class AnnForm extends Component {
           <div className="card-body">
             <form onSubmit={this.onSubmit}>
               <div className="form-group">
-                <TextAreaFieldGroup
-                  placeholder="Title"
-                  name="title"
-                  value={this.state.title}
-                  onChange={this.onChange}
-                  error={errors.title}
-                />
-                <TextAreaFieldGroup
-                  placeholder="Body"
-                  name="text"
+                <ReactQuill
+                  theme="snow"
+                  modules={this.modules}
                   value={this.state.text}
-                  onChange={this.onChange}
-                  error={errors.text}
+                  placeholder="say something"
+                  onChange={this.handleChange}
                 />
-                <TextAreaFieldGroup
-                  placeholder="Put here the link(optional)"
-                  name="link"
-                  value={this.state.link}
-                  onChange={this.onChange}
-                  error={errors.link}
-                />
+                {errors.text && (
+                  <div className="invalid-feedback">{errors.text}</div>
+                )}
+                <div className="mt-5">
+                  <TextAreaFieldGroup
+                    placeholder="Put here the link(optional)"
+                    name="link"
+                    value={this.state.link}
+                    onChange={this.onChange}
+                    error={errors.link}
+                  />
+                </div>
               </div>
               <button type="submit" className="btn btn-dark">
                 Submit

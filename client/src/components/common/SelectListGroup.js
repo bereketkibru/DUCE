@@ -2,15 +2,7 @@ import React from "react";
 import classnames from "classnames";
 import PropTypes from "prop-types";
 
-function SelectListGroup({
-  name,
-
-  value,
-  error,
-  info,
-  onChange,
-  options,
-}) {
+function SelectListGroup({ name, value, error, info, onChange, options }) {
   const selectOptions = options.map((option) => (
     <option key={option.lable} value={option.value}>
       {option.label}
@@ -40,7 +32,6 @@ SelectListGroup.propTypes = {
   onChange: PropTypes.func.isRequired,
   info: PropTypes.string,
   error: PropTypes.string,
-
   options: PropTypes.array.isRequired,
 };
 

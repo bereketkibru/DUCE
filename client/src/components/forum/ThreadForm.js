@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import TextAreaFieldGroup from "../common/TextAreaFieldGroup";
 import { addThread } from "../../actions/forumActions";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 class ThreadForm extends Component {
   constructor(props) {
@@ -15,6 +16,28 @@ class ThreadForm extends Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
+  toolbarOptions = [
+    ["bold", "italic", "underline", "strike"], // toggled buttons
+    ["blockquote", "code-block"],
+
+    [{ header: 1 }, { header: 2 }], // custom button values
+    [{ list: "ordered" }, { list: "bullet" }],
+    [{ script: "sub" }, { script: "super" }], // superscript/subscript
+    [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
+    [{ direction: "rtl" }], // text direction
+
+    [{ size: ["small", false, "large", "huge"] }], // custom dropdown
+    [{ header: [1, 2, 3, 4, 5, 6, false] }],
+
+    [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+    [{ font: [] }],
+    [{ align: [] }],
+
+    ["clean"], // remove formatting button
+  ];
+  modules = {
+    toolbar: this.toolbarOptions,
+  };
 
   componentWillReceiveProps(newProps) {
     if (newProps.errors) {
@@ -38,8 +61,8 @@ class ThreadForm extends Component {
     this.setState({ text: "" });
   }
 
-  onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+  onChange(value) {
+    this.setState({ text: value });
   }
 
   render() {
@@ -54,13 +77,16 @@ class ThreadForm extends Component {
           <div className="card-body">
             <form onSubmit={this.onSubmit}>
               <div className="form-group">
-                <TextAreaFieldGroup
-                  placeholder="Say something..."
-                  name="text"
+                <ReactQuill
+                  theme="snow"
+                  modules={this.modules}
                   value={this.state.text}
+                  placeholder="say something"
                   onChange={this.onChange}
-                  error={errors.text}
                 />
+                {errors.text && (
+                  <div className="invalid-feedback">{errors.text}</div>
+                )}
               </div>
               <button type="submit" className="btn btn-dark">
                 Submit

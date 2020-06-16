@@ -22,7 +22,9 @@ class Forum extends Component {
         <div>
           <ForumItem forum={forum} showActions={false} showDescription={true} />
           <ThreadForm forumId={forum._id} />
-          <ThreadFeed forumId={forum._id} threads={forum.threads} />
+          <div className="col-sm-auto offset-sm-1">
+            <ThreadFeed forumId={forum._id} threads={forum.threads} />
+          </div>
         </div>
       );
     }

@@ -32,7 +32,7 @@ class QItem extends Component {
             <p className="text-center">{qanda.name}</p>
           </div>
           <div className="col-md-10">
-            <p className="lead">{qanda.question}</p>
+            <div dangerouslySetInnerHTML={{ __html: qanda.question }} />
             {showActions ? (
               <span>
                 <Link to={`/qandas/${qanda._id}`} className="btn btn-info mr-1">

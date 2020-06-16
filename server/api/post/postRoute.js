@@ -1,6 +1,7 @@
 var router = require("express").Router();
 const mongoose = require("mongoose");
 const passport = require("passport");
+const multer = require("multer");
 //Post model
 const Post = require("./postModel");
 //Post model
@@ -13,10 +14,44 @@ const {
   canDeletePost,
 } = require("../../permission/postPermission");
 
+// STORAGE MULTER CONFIG
+let storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/");
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}_${file.originalname}`);
+  },
+  fileFilter: (req, file, cb) => {
+    const ext = path.extname(file.originalname);
+    if (ext !== ".jpg" && ext !== ".png" && ext !== ".mp4") {
+      return cb(res.status(400).end("only jpg, png, mp4 is allowed"), false);
+    }
+    cb(null, true);
+  },
+});
+const upload = multer({ storage: storage }).single("file");
+
 //@route   GET api/post/test
 //@desc    Test post route
 //@access  Public
 router.get("/test", (req, res) => res.send("hello from post"));
+
+//@route   GET api/post/uploadfiles
+//@desc    Upload files
+//@access
+router.post("/uploadfiles", (req, res) => {
+  upload(req, res, (err) => {
+    if (err) {
+      return res.json({ success: false, err });
+    }
+    return res.json({
+      success: true,
+      url: res.req.file.path,
+      fileName: res.req.file.filename,
+    });
+  });
+});
 
 //@route   POST api/posts
 //@desc    Get post
@@ -53,7 +88,6 @@ router.post(
       }
       const newPost = new Post({
         text: req.body.text,
-        title: req.body.title,
         name: req.body.name,
         avatar: req.body.avatar,
         user: req.user.id,

@@ -54,7 +54,6 @@ router.post(
         return res.status(400).json(errors);
       }
       const newAnn = new Ann({
-        title: req.body.title,
         text: req.body.text,
         link: req.body.link,
         name: req.body.name,

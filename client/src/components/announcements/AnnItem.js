@@ -36,9 +36,8 @@ class AnnItem extends Component {
           ></div>
         </div>
         <div className="card-body">
-          <h4 className="card-text text-justify font-italic lead">
-            {ann.text}
-          </h4>
+          <div dangerouslySetInnerHTML={{ __html: ann.text }} />
+
           <div className="float-right">{linkContent}</div>
         </div>
         <div className="card-footer text-muted">

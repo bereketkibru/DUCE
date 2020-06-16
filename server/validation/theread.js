@@ -5,7 +5,7 @@ module.exports = function validateThreadInput(data) {
 
   data.text = !isEmpty(data.text) ? data.text : "";
 
-  if (!validator.isLength(data.text, { min: 1, max: 300 })) {
+  if (!validator.isLength(data.text, { min: 1, max: 30000 })) {
     errors.text = "Forum must be between 10 and 300 characters";
   }
   if (validator.isEmpty(data.text)) {

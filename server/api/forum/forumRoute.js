@@ -50,7 +50,6 @@ router.post(
     }
     const newForum = new Forum({
       text: req.body.text,
-      title: req.body.title,
       name: req.body.name,
       avatar: req.body.avatar,
       user: req.user.id,

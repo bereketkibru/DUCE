@@ -24,7 +24,7 @@ class ThreadItme extends Component {
             <p className="text-center">{thread.name}</p>
           </div>
           <div className="col-md-10">
-            <p className="lead">{thread.text}</p>
+            <div dangerouslySetInnerHTML={{ __html: thread.text }} />
             {thread.user === auth.user.id ||
             auth.user.role === "Admin" ||
             auth.user.role === "Moderator" ? (
