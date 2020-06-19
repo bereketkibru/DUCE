@@ -12,28 +12,38 @@ import store from "./store";
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
 import Landing from "./components/layout/Landing";
+
+import Dashboard from "./components/dashboard/Dashboard";
+
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
-import Dashboard from "./components/dashboard/Dashboard";
+
 import PrivateRoute from "./components/common/PrivateRoute";
+
 import CreateProfile from "./components/create-profile/CreateProfile";
 import EditProfile from "./components/edit-profile/EditProfile";
 import AddExperience from "./components/add-credentials/AddExperience";
 import AddEducation from "./components/add-credentials/AddEducation";
 import Profiles from "./components/profiles/Profiles";
 import Profile from "./components/profile/Profile";
-import Posts from "./components/posts/Posts";
+
 import Anns from "./components/announcements/Anns";
-import Post from "./components/post/Post";
+
 import Qanda from "./components/qanda/Qanda";
 import Qandas from "./components/qandas/Qandas";
+
 import Forums from "./components/forums/Forums";
 import Forum from "./components/forum/Forum";
 
-import "./App.css";
+import PostPage from "./components/PostPage/PostPage";
+import BlogPage from "./components/BlogPage/BlogPage";
+import CreateBlogPage from "./components/BlogPage/Section.js/CreatePage";
+
 import NotFound from "./components/not-found/NotFound";
 import AnnForm from "./components/announcements/AnnForm";
-import PostForm from "./components/posts/PostForm";
+
+import "./App.css";
+import "./index.css";
 // Check for token
 if (localStorage.jwtToken) {
   // Set auth token header auth
@@ -100,17 +110,27 @@ class App extends Component {
                 />
               </Switch>
               <Switch>
+                <PrivateRoute exact path="/blog" component={BlogPage} />
+              </Switch>
+              <Switch>
+                <PrivateRoute
+                  exact
+                  path="/blog/post/:postId"
+                  component={PostPage}
+                />
+              </Switch>
+              <Switch>
+                <PrivateRoute
+                  exact
+                  path="/blog/create"
+                  component={CreateBlogPage}
+                />
+              </Switch>
+
+              <Switch>
                 <PrivateRoute exact path="/add-ann" component={AnnForm} />
               </Switch>
-              <Switch>
-                <PrivateRoute exact path="/add-post" component={PostForm} />
-              </Switch>
-              <Switch>
-                <PrivateRoute exact path="/posts/:id" component={Post} />
-              </Switch>
-              <Switch>
-                <PrivateRoute exact path="/feed" component={Posts} />
-              </Switch>
+
               <Switch>
                 <PrivateRoute exact path="/forums/:id" component={Forum} />
               </Switch>

@@ -80,7 +80,7 @@ class ForumItem extends Component {
                       type="button"
                       className="btn btn-danger mr-1 pull-right mt-5"
                     >
-                      <i className="fas fa-times" />
+                      <i className="fas fa-trash " />
                     </button>
                   </div>
                 ) : null}

@@ -13,7 +13,7 @@ import {
 export const addPost = (postData, history) => (dispatch) => {
   dispatch(clearErrors());
   axios
-    .post("/api/posts", postData)
+    .post("/api/blog", postData)
     .then((res) => history.push("/feed"))
     .catch((err) =>
       dispatch({
@@ -26,7 +26,7 @@ export const addPost = (postData, history) => (dispatch) => {
 export const getPost = (id) => (dispatch) => {
   dispatch(setPostLoading());
   axios
-    .get(`/api/posts/${id}`)
+    .get(`/api/blog/${id}`)
     .then((res) =>
       dispatch({
         type: GET_POST,
@@ -45,7 +45,7 @@ export const getPost = (id) => (dispatch) => {
 export const getPosts = () => (dispatch) => {
   dispatch(setPostLoading());
   axios
-    .get("/api/posts")
+    .get("/api/blog")
     .then((res) =>
       dispatch({
         type: GET_POSTS,
@@ -63,7 +63,7 @@ export const getPosts = () => (dispatch) => {
 //Delete Post
 export const deletePost = (id) => (dispatch) => {
   axios
-    .delete(`/api/posts/${id}`)
+    .delete(`/api/blog/${id}`)
     .then((res) =>
       dispatch({
         type: DELETE_POST,
@@ -80,7 +80,7 @@ export const deletePost = (id) => (dispatch) => {
 //Add like
 export const addLike = (id) => (dispatch) => {
   axios
-    .post(`/api/posts/like/${id}`)
+    .post(`/api/blog/like/${id}`)
     .then((res) => dispatch(getPosts()))
     .catch((err) =>
       dispatch({
@@ -92,7 +92,7 @@ export const addLike = (id) => (dispatch) => {
 //Remove like
 export const removeLike = (id) => (dispatch) => {
   axios
-    .post(`/api/posts/unlike/${id}`)
+    .post(`/api/blog/unlike/${id}`)
     .then((res) => dispatch(getPosts()))
     .catch((err) =>
       dispatch({
@@ -105,7 +105,7 @@ export const removeLike = (id) => (dispatch) => {
 export const addComment = (postId, commentData) => (dispatch) => {
   dispatch(clearErrors());
   axios
-    .post(`/api/posts/comment/${postId}`, commentData)
+    .post(`/api/blog/comment/${postId}`, commentData)
     .then((res) =>
       dispatch({
         type: GET_POST,
@@ -122,7 +122,7 @@ export const addComment = (postId, commentData) => (dispatch) => {
 //Delete Comment
 export const deleteComment = (postId, commentId) => (dispatch) => {
   axios
-    .delete(`/api/posts/comment/${postId}/${commentId}`)
+    .delete(`/api/blog/comment/${postId}/${commentId}`)
     .then((res) =>
       dispatch({
         type: GET_POST,

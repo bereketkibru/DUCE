@@ -33,7 +33,7 @@ class AnswerItem extends Component {
                 type="button"
                 className="btn btn-danger mr-1"
               >
-                <i className="fas fa-times" />
+                <i className="fas fa-trash " />
               </button>
             ) : null}
           </div>

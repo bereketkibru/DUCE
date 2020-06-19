@@ -3,7 +3,8 @@ function canCreatePost(user) {
 }
 
 function canDeletePost(user, post) {
-  return post.user.toString() === user.id || user.role === "Admin";
+  console.log(post.writer, user.id);
+  return post.writer.toString() === user.id || user.role === "Admin";
 }
 
 module.exports = {

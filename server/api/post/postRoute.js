@@ -4,7 +4,7 @@ const passport = require("passport");
 const multer = require("multer");
 //Post model
 const Post = require("./postModel");
-//Post model
+//Profile model
 const Profile = require("../profile/profileModel");
 //validation
 const validatePostInput = require("../../validation/post");

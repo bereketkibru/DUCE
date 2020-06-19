@@ -69,7 +69,7 @@ class QItem extends Component {
                       type="button"
                       className="btn btn-danger mr-1 pull-right"
                     >
-                      <i className="fas fa-times" />
+                      <i className="fas fa-trash " />
                     </button>
                   </div>
                 ) : null}
