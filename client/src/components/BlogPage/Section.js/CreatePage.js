@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import QuillEditor from "../../editor/QuillEditor";
 import { Typography, Button, Form, message } from "antd";
 import axios from "axios";
-import { useSelector } from "react-redux";
 
 const { Title } = Typography;
 
 function CreatePage(props) {
-  const user = useSelector((state) => state.auth);
+  const { user } = this.props.auth;
 
   const [content, setContent] = useState("");
   const [files, setFiles] = useState([]);
@@ -21,7 +20,7 @@ function CreatePage(props) {
   const onFilesChange = (files) => {
     setFiles(files);
   };
-
+  console.log(files);
   const onSubmit = (event) => {
     event.preventDefault();
 

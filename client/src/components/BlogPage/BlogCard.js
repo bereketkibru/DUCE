@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { deletePost } from "../../actions/postActions";
+import { Link } from "react-router-dom";
 import {
   Card,
   CardImg,
@@ -11,16 +12,15 @@ import {
   CardSubtitle,
   Button,
 } from "reactstrap";
-import { Link } from "react-router-dom";
 
 class BlogCard extends Component {
   onDeleteClick(id) {
     this.props.deletePost(id);
   }
   render() {
-    let { _id, writer, content } = this.props.blog;
-    const { id, role } = this.props.user;
-    console.log(writer.role);
+    let post = this.props.post;
+    const { user } = this.props.auth;
+
     return (
       <div>
         <Card
@@ -32,25 +32,26 @@ class BlogCard extends Component {
           <CardImg
             top
             style={{ width: "35px", marginRight: "5px" }}
-            src={writer.avatar}
+            src={post.writer.avatar}
             alt="Card image cap"
           />
           <CardBody>
-            <CardTitle className="rounded-circle">{writer.name}</CardTitle>
+            <CardTitle className="rounded-circle">{post.writer.name}</CardTitle>
             <CardSubtitle>{}</CardSubtitle>
             <CardText>
               <div style={{ height: 150, overflowY: "scroll", marginTop: 10 }}>
                 {" "}
-                <div dangerouslySetInnerHTML={{ __html: content }} />
+                <div dangerouslySetInnerHTML={{ __html: post.content }} />
               </div>
             </CardText>
-            <a href={`/blog/post/${_id}`}>
-              <Button color="info">Read More</Button>
-            </a>
+
+            <Link to={`/blog/${post._id}`} className="btn btn-info mr-1">
+              Read More
+            </Link>
             <div className="float-right">
-              {writer._id === id || role === "Admin" ? (
+              {post.writer._id === user.id || user.role === "Admin" ? (
                 <Button
-                  onClick={this.onDeleteClick.bind(this, _id)}
+                  onClick={this.onDeleteClick.bind(this, post._id)}
                   type="button"
                   className="btn btn-danger mr-1"
                 >
@@ -65,13 +66,14 @@ class BlogCard extends Component {
   }
 }
 BlogCard.propTypes = {
-  blog: PropTypes.object.isRequired,
+  post: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
   deletePost: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  post: state.post,
 });
 
 export default connect(mapStateToProps, { deletePost })(BlogCard);
