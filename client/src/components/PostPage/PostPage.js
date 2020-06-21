@@ -7,15 +7,18 @@ import { Link } from "react-router-dom";
 import CommentForm from "./CommentForm";
 import CommentFeed from "./CommentFeed";
 import { Typography } from "antd";
+
 const { Title } = Typography;
 
 class PostPage extends Component {
   componentDidMount() {
     this.props.getPost(this.props.match.params.id);
   }
+
   render() {
     const { post, loading } = this.props.post;
     let postContent;
+
     if (post === null || loading || Object.keys(post).length === 0) {
       postContent = <Spinner />;
     } else {
@@ -27,6 +30,7 @@ class PostPage extends Component {
             <Title level={4}>{post.createdAt}</Title>
           </div>
           <div dangerouslySetInnerHTML={{ __html: post.content }} />
+
           <CommentForm postId={post._id} />
           <div className="col-sm-auto offset-sm-1">
             <CommentFeed postId={post._id} comments={post.comments} />
@@ -53,8 +57,10 @@ class PostPage extends Component {
 PostPage.propTypes = {
   getPost: PropTypes.func.isRequired,
   post: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired,
 };
 const mapStateToProps = (state) => ({
   post: state.post,
+  auth: state.auth,
 });
 export default connect(mapStateToProps, { getPost })(PostPage);

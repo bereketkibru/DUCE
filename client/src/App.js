@@ -113,11 +113,7 @@ class App extends Component {
                 <PrivateRoute exact path="/blog" component={BlogPage} />
               </Switch>
               <Switch>
-                <PrivateRoute
-                  exact
-                  path="/blog/post/:postId"
-                  component={PostPage}
-                />
+                <PrivateRoute exact path="/blog/:id" component={PostPage} />
               </Switch>
               <Switch>
                 <PrivateRoute

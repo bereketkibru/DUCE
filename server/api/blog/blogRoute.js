@@ -77,17 +77,27 @@ router.post(
   "/createPost",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    let blog = new Blog({
-      content: req.body.content,
-      writer: req.body.userID,
-      name: req.body.name,
-      avatar: req.body.avatar,
-    });
+    if (canCreatePost(req.user)) {
+      const { errors, isValid } = validatePostInput(req.body);
+      //check validation
+      if (!isValid) {
+        //If any errors,send 400 with errors object
+        return res.status(400).json(errors);
+      }
+      let blog = new Blog({
+        content: req.body.content,
+        writer: req.body.userID,
+        name: req.body.name,
+        avatar: req.body.avatar,
+      });
 
-    blog.save((err, postInfo) => {
-      if (err) return res.json({ success: false, err });
-      return res.status(200).json({ success: true, postInfo });
-    });
+      blog.save((err, postInfo) => {
+        if (err) return res.json({ success: false, err });
+        return res.status(200).json({ success: true, postInfo });
+      });
+    } else {
+      return res.status(401).json({ notauthorized: "User not authorized" });
+    }
   }
 );
 
@@ -95,31 +105,29 @@ router.post(
 //@desc    Test post route
 //@access  Private
 router.get(
-  "/getBlogs",
+  "/",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     Blog.find()
       .populate("writer")
-      .exec((err, posts) => {
-        if (err) return res.status(400).send(err);
-        res.status(200).json({ success: true, posts });
-      });
+      .sort({ createdAt: -1 })
+      .then((posts) => res.json(posts))
+      .catch((err) => res.status(404).json("No posts found"));
   }
 );
 //@route   GET api/blog/getPost
 //@desc    Test post route
 //@access  Private
-router.post(
-  "/getPost",
+router.get(
+  "/:id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    console.log(req.body);
-    Blog.findOne({ _id: req.body.postId })
+    Blog.findById(req.params.id)
       .populate("writer")
-      .exec((err, post) => {
-        if (err) return res.status(400).send(err);
-        res.status(200).json({ success: true, post });
-      });
+      .then((post) => res.json(post))
+      .catch((err) =>
+        res.status(404).json({ nopostfound: "No post found with that ID" })
+      );
   }
 );
 //@route   DELETE api/blog/:id
@@ -136,7 +144,7 @@ router.delete(
           console.log(req.user, post.writer);
           if (canDeletePost(req.user, post)) {
             //Delete
-            blog.remove().then(() => res.json({ success: true }));
+            post.remove().then(() => res.json({ success: true }));
           } else {
             return res
               .status(401)

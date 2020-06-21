@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { deletePost } from "../../actions/postActions";
+import { deletePost, addLike, removeLike } from "../../actions/postActions";
 import { Link } from "react-router-dom";
+import classnames from "classnames";
 import {
   Card,
   CardImg,
@@ -17,19 +18,53 @@ class BlogCard extends Component {
   onDeleteClick(id) {
     this.props.deletePost(id);
   }
+  onLikeClick(id) {
+    this.props.addLike(id);
+  }
+  onUnlikeClick(id) {
+    this.props.removeLike(id);
+  }
+  findUserVote(likes) {
+    const { auth } = this.props;
+    if (likes.filter((like) => like.user === auth.user.id).length > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
   render() {
-    let post = this.props.post;
-    const { user } = this.props.auth;
+    const { post, auth } = this.props;
+    const user = auth.user;
+    console.log(post);
 
+    let clapContent = (
+      <span>
+        <button
+          onClick={this.onLikeClick.bind(this, post._id)}
+          type="button"
+          className="btn btn-light mr-1"
+        >
+          <i
+            className={classnames("fas fa-thumbs-up", {
+              "text-info": this.findUserVote(post.likes),
+            })}
+          ></i>
+          <span className="badge badge-light">{post.likes.length}</span>
+        </button>
+        <button
+          onClick={this.onUnlikeClick.bind(this, post._id)}
+          type="button"
+          className="btn btn-light mr-1"
+        >
+          <i className="text-secondary fas fa-thumbs-down"></i>
+        </button>
+      </span>
+    );
     return (
       <div>
-        <Card
-          body
-          inverse
-          style={{ backgroundColor: "#333", borderColor: "#333" }}
-          className="mt-5"
-        >
+        <Card className="mt-5">
           <CardImg
+            className="rounded-circle"
             top
             style={{ width: "35px", marginRight: "5px" }}
             src={post.writer.avatar}
@@ -44,10 +79,13 @@ class BlogCard extends Component {
                 <div dangerouslySetInnerHTML={{ __html: post.content }} />
               </div>
             </CardText>
+            <div>
+              <Link to={`/blog/${post._id}`} className="btn btn-info mr-1">
+                Read More
+              </Link>
+              {clapContent}
+            </div>
 
-            <Link to={`/blog/${post._id}`} className="btn btn-info mr-1">
-              Read More
-            </Link>
             <div className="float-right">
               {post.writer._id === user.id || user.role === "Admin" ? (
                 <Button
@@ -69,11 +107,14 @@ BlogCard.propTypes = {
   post: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
   deletePost: PropTypes.func.isRequired,
+  addLike: PropTypes.func.isRequired,
+  removeLike: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  post: state.post,
 });
 
-export default connect(mapStateToProps, { deletePost })(BlogCard);
+export default connect(mapStateToProps, { deletePost, addLike, removeLike })(
+  BlogCard
+);

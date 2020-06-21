@@ -10,10 +10,10 @@ import {
 } from "./types";
 
 // GET Post
-export const getPost = (postId) => (dispatch) => {
+export const getPost = (id) => (dispatch) => {
   dispatch(setPostLoading());
   axios
-    .get(`/api/blog/getPost`, postId)
+    .get(`/api/blog/${id}`)
     .then((res) =>
       dispatch({
         type: GET_POST,
@@ -32,7 +32,7 @@ export const getPost = (postId) => (dispatch) => {
 export const getPosts = () => (dispatch) => {
   dispatch(setPostLoading());
   axios
-    .get("/api/blog/getBlogs")
+    .get("/api/blog")
     .then((res) =>
       dispatch({
         type: GET_POSTS,
