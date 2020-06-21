@@ -9,24 +9,11 @@ import {
   CLEAR_ERRORS,
 } from "./types";
 
-// Add Post
-export const addPost = (postData, history) => (dispatch) => {
-  dispatch(clearErrors());
-  axios
-    .post("/api/blog", postData)
-    .then((res) => history.push("/feed"))
-    .catch((err) =>
-      dispatch({
-        type: GET_ERRORS,
-        payload: err.response.data,
-      })
-    );
-};
 // GET Post
-export const getPost = (id) => (dispatch) => {
+export const getPost = (postId) => (dispatch) => {
   dispatch(setPostLoading());
   axios
-    .get(`/api/blog/${id}`)
+    .get(`/api/blog/getPost`, postId)
     .then((res) =>
       dispatch({
         type: GET_POST,
@@ -45,7 +32,7 @@ export const getPost = (id) => (dispatch) => {
 export const getPosts = () => (dispatch) => {
   dispatch(setPostLoading());
   axios
-    .get("/api/blog")
+    .get("/api/blog/getBlogs")
     .then((res) =>
       dispatch({
         type: GET_POSTS,

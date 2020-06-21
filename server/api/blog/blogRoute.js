@@ -100,9 +100,9 @@ router.get(
   (req, res) => {
     Blog.find()
       .populate("writer")
-      .exec((err, blogs) => {
+      .exec((err, posts) => {
         if (err) return res.status(400).send(err);
-        res.status(200).json({ success: true, blogs });
+        res.status(200).json({ success: true, posts });
       });
   }
 );
@@ -131,10 +131,10 @@ router.delete(
   (req, res) => {
     Profile.findOne({ user: req.user.id }).then((profile) => {
       Blog.findById(req.params.id)
-        .then((blog) => {
+        .then((post) => {
           //Check for post owner or Admin
-          console.log(req.user, blog.writer);
-          if (canDeletePost(req.user, blog)) {
+          console.log(req.user, post.writer);
+          if (canDeletePost(req.user, post)) {
             //Delete
             blog.remove().then(() => res.json({ success: true }));
           } else {
@@ -158,9 +158,9 @@ router.post(
   (req, res) => {
     Profile.findOne({ user: req.user.id }).then((profile) => {
       Blog.findById(req.params.id)
-        .then((blog) => {
+        .then((post) => {
           if (
-            blog.likes.filter((like) => like.user.toString() === req.user.id)
+            post.likes.filter((like) => like.user.toString() === req.user.id)
               .length > 0
           ) {
             return res
@@ -168,8 +168,8 @@ router.post(
               .json({ alreadyliked: "User already liked this post" });
           }
           //Add user id to likes array and save
-          blog.likes.unshift({ user: req.user.id });
-          blog.save().then((blog) => res.json(blog));
+          post.likes.unshift({ user: req.user.id });
+          post.save().then((post) => res.json(post));
         })
         .catch((err) =>
           res.status(404).json({ postnotfound: "No post found" })
@@ -187,9 +187,9 @@ router.post(
     console.log(req.user);
     Profile.findOne({ user: req.user.id }).then((profile) => {
       Blog.findById(req.params.id)
-        .then((blog) => {
+        .then((post) => {
           if (
-            blog.likes.filter((like) => like.user.toString() === req.user.id)
+            post.likes.filter((like) => like.user.toString() === req.user.id)
               .length === 0
           ) {
             return res
@@ -197,13 +197,13 @@ router.post(
               .json({ notliked: "You have not yet liked this post" });
           }
           //Add user id to likes array
-          const removeIndex = blog.likes
+          const removeIndex = post.likes
             .map((item) => item.user.toString())
             .indexOf(req.user.id);
           //Splice out of array
-          blog.likes.splice(removeIndex, 1);
+          post.likes.splice(removeIndex, 1);
           //save
-          blog.save().then((blog = res.json(blog)));
+          post.save().then((post = res.json(post)));
         })
         .catch((err) =>
           res.status(404).json({ postnotfound: "No post found" })
@@ -226,7 +226,7 @@ router.post(
       return res.status(400).json(errors);
     }
     Blog.findById(req.params.id)
-      .then((blog) => {
+      .then((post) => {
         const newComment = {
           text: req.body.text,
           name: req.user.name,
@@ -234,9 +234,9 @@ router.post(
           user: req.user.id,
         };
         //Add to comments array
-        blog.comments.unshift(newComment);
+        post.comments.unshift(newComment);
         //save
-        blog.save().then((blog) => res.json(blog));
+        post.save().then((post) => res.json(post));
       })
       .catch((err) => res.status(404).json({ postnotfound: "No post found" }));
   }
@@ -250,10 +250,10 @@ router.delete(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     Blog.findById(req.params.id)
-      .then((blog) => {
+      .then((post) => {
         //Chck to see if comment exists
         if (
-          blog.comments.filter(
+          post.comments.filter(
             (comment) => comment._id.toString() === req.params.comment_id
           ).length === 0
         ) {
@@ -262,13 +262,13 @@ router.delete(
             .json({ commentnotexists: "Commetn does not exist" });
         }
         //Get remove index
-        const removeIndex = blog.comments
+        const removeIndex = post.comments
           .map((item) => item._id.toString())
           .indexOf(req.params.comment_id);
 
         //Splice comment out of array
-        blog.comments.splice(removeIndex, 1);
-        blog.save().then((blog) => res.json(blog));
+        post.comments.splice(removeIndex, 1);
+        post.save().then((post) => res.json(post));
       })
       .catch((err) => res.status(404).json({ postnotfound: "No post found" }));
   }

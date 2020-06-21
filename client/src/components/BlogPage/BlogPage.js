@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { connect } from "mongoose";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Spinner from "../common/Spinner";
 import { getPosts } from "../../actions/postActions";
@@ -7,6 +7,7 @@ import { getPosts } from "../../actions/postActions";
 import { Container, Row } from "reactstrap";
 import { Link } from "react-router-dom";
 import BlogFeed from "./BlogFeed";
+import { useSelector } from "react-redux";
 
 class BlogPage extends Component {
   componentDidMount() {
@@ -14,7 +15,8 @@ class BlogPage extends Component {
   }
   render() {
     const { posts, loading } = this.props.post;
-    const { user } = this.state.auth;
+    //const user = useSelector((state) => state.auth.user);
+    const { user } = this.props.auth;
 
     let hasPrivilage = false;
     if (user.role === "Moderator" || user.role === "Admin") {

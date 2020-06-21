@@ -3,11 +3,11 @@ import React, { useState } from "react";
 import QuillEditor from "../../editor/QuillEditor";
 import { Typography, Button, Form, message } from "antd";
 import axios from "axios";
-
+import { useSelector } from "react-redux";
 const { Title } = Typography;
 
 function CreatePage(props) {
-  const { user } = this.props.auth;
+  const user = useSelector((state) => state.auth);
 
   const [content, setContent] = useState("");
   const [files, setFiles] = useState([]);
