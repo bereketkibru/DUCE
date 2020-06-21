@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { connect } from "mongoose";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Spinner from "../common/Spinner";
 import { getPosts } from "../../actions/postActions";
@@ -59,4 +59,5 @@ const mapStateToProps = (state) => ({
   post: state.post,
   auth: state.auth,
 });
+
 export default connect(mapStateToProps, { getPosts })(BlogPage);
