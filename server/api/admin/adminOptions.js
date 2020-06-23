@@ -45,7 +45,7 @@ const options = {
   branding: {
     logo:
       "//www.gravatar.com/avatar/f4be6c67e8a4bd3b090c7e487f1a1cd6?s=200&r=pg&d=mm",
-    companyName: "DUCeConnector",
+    companyName: "DUCoEConnector",
   },
 };
 module.exports = options;

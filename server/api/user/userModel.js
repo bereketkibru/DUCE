@@ -29,5 +29,5 @@ const UserSchema = new Schema({
     default: Date.now,
   },
 });
-UserSchema.plugin(timestamps);
+
 module.exports = User = mongoose.model("users", UserSchema);

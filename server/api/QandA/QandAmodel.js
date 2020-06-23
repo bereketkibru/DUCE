@@ -54,5 +54,5 @@ const QandaSchema = new Schema({
     },
   ],
 });
-QandaSchema.plugin(timestamps);
+
 module.exports = Qanda = mongoose.model("qanda", QandaSchema);

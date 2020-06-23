@@ -49,7 +49,7 @@ const blogSchema = mongoose.Schema({
     },
   ],
 });
-blogSchema.plugin(timestamps);
+
 const Blog = mongoose.model("Blog", blogSchema);
 
 module.exports = { Blog };

@@ -8,6 +8,7 @@ const { Blog } = require("./blogModel");
 const Profile = require("../profile/profileModel");
 //validation
 const validatePostInput = require("../../validation/post");
+const validateForumInput = require("../../validation/forum");
 //Permission
 const {
   canCreatePost,
@@ -227,7 +228,7 @@ router.post(
   "/comment/:id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    const { errors, isValid } = validatePostInput(req.body);
+    const { errors, isValid } = validateForumInput(req.body);
     //check validation
     if (!isValid) {
       //If any errors,send 400 with errors object

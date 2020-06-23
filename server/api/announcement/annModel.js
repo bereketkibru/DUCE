@@ -30,5 +30,5 @@ const AnnSchema = new Schema({
     type: String,
   },
 });
-AnnSchema.plugin(timestamps);
+
 module.exports = Ann = mongoose.model("ann", AnnSchema);
